@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import Header from './components/Header'
+import Users from './components/Users'
+import Messages from './components/Messages'
 import './styles/App.css'
 
 class App extends Component {
@@ -6,7 +9,7 @@ class App extends Component {
     super(props)
     this.state = {
       users: [],
-      messages: []
+      messages: [],
     }
   }
 
@@ -21,7 +24,6 @@ class App extends Component {
       .then(users => this.setState({ users }))
   }
 
-
   getMessages = () => {
     fetch('http://localhost:8080/messages')
       .then(res => res.json())
@@ -33,12 +35,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        {users.map(user => (
-          <div key={user._id}>{user.username}</div>
-        ))}
-        {messages.map(message => (
-          <div key={message._id}>{message.text}</div>
-        ))}
+        <Header />
+        <Users users={users} />
+        <Messages messages={messages} />
       </div>
     )
   }
