@@ -4,7 +4,7 @@ import '../styles/Header.css'
 const Header = function() {
     return (
         <div className="Header">
-            Header
+            Messenger
         </div>
     )
 }

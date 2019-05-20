@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       users: [],
       messages: [],
+      input: '',
     }
   }
 
@@ -30,6 +31,23 @@ class App extends Component {
       .then(messages => this.setState({ messages }))
   }
 
+  postMessage = e => {
+    e.preventDefault()
+    fetch('http://localhost:8080/messages', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({ text: this.state.input }),
+    })
+      .then(res => res.json())
+      .then(this.getMessages())
+  }
+
+  handleChange = e => {
+    this.setState({ input: e.target.value })
+  }
+
   render() {
     const { users, messages } = this.state
 
@@ -37,7 +55,11 @@ class App extends Component {
       <div className="App">
         <Header />
         <Users users={users} />
-        <Messages messages={messages} />
+        <Messages messages={messages} postMessage={postMessage} />
+        <form id="message" onSubmit={this.postMessage}>
+          <input onChange={this.handleChange} value={this.state.input} type="text" />
+          <button type="submit">Send</button>
+        </form>
       </div>
     )
   }

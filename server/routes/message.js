@@ -19,6 +19,7 @@ router.get('/:messageId', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log('--- POST message')
+    console.log(req.body)
     Message.create(req.body).then(message => {
         res.send(message)
     })
