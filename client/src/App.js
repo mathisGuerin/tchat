@@ -1,34 +1,47 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './styles/App.css'
 
 class App extends Component {
-
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
-      list: []
+      users: [],
+      messages: []
     }
   }
 
   componentDidMount() {
-    this.getList();
+    this.getUsers()
+    this.getMessages()
   }
 
-  // Retrieves the list of items from the Express app
-  getList = () => {
-    fetch('http://localhost:3000/users')
-    .then(res => res.json())
-    .then(list => this.setState({ list }))
+  getUsers = () => {
+    fetch('http://localhost:8080/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }))
+  }
+
+
+  getMessages = () => {
+    fetch('http://localhost:8080/messages')
+      .then(res => res.json())
+      .then(messages => this.setState({ messages }))
   }
 
   render() {
+    const { users, messages } = this.state
+
     return (
       <div className="App">
-        <div className="App-header">
-        </div>
+        {users.map(user => (
+          <div key={user._id}>{user.username}</div>
+        ))}
+        {messages.map(message => (
+          <div key={message._id}>{message.text}</div>
+        ))}
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

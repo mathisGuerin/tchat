@@ -4,11 +4,13 @@ import routes from './routes'
 const connectDb = require('./models').connectDb
 let express = require('express')
 let app = express()
+var cors = require('cors')
 let bodyParser = require('body-parser')
 let session = require('express-session')
 
 // Middleware
 app.use(express.static('public'))
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(
@@ -45,7 +47,7 @@ connectDb().then(async () => {
         await Promise.all([models.User.deleteMany({}), models.Message.deleteMany({})])
         createUsersWithMessages()
     }
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
         console.log('- Listening for request...')
     })
 })
@@ -79,5 +81,3 @@ const createUsersWithMessages = async () => {
     await user1.save()
     await user2.save()
 }
-
-app.listen(process.env.PORT, () => console.log(`- Example app listening on port ${process.env.PORT}!`))
