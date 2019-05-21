@@ -1,17 +1,21 @@
 import 'dotenv/config'
 import { models } from './models'
 import routes from './routes'
-const connectDb = require('./models').connectDb
-let express = require('express')
+import { connectDb } from './models'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import createUsersWithMessages from './helpers/database'
+
+import express  from 'express'
+import session from 'express-session'
+import http from 'http'
+
 let app = express()
-var cors = require('cors')
-let bodyParser = require('body-parser')
-let session = require('express-session')
-var server = require('http').Server(app)
+let server = http.Server(app)
 var io = require('socket.io')(server)
 var connections = []
 
-io.sockets.on('connection', function(socket) {
+io.on('connection', function(socket) {
     connections.push(socket)
     console.log('Connected: %s sockets connected', connections.length)
     // Disconnect
@@ -32,7 +36,9 @@ app.use(express.static('public'))
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(
+
+
+/* app.use(
     session({
         secret: 'dcgbfxdgn',
         resave: false,
@@ -43,12 +49,12 @@ app.use(
 app.use(require('./middlewares/flash'))
 
 app.use((req, res, next) => {
-    /* req.context = {
+    req.context = {
         models,
         me: models.users[1],
-    } */
+    }
     next()
-})
+}) */
 
 app.use('/session', routes.session)
 app.use('/users', routes.user)
@@ -70,33 +76,3 @@ connectDb().then(async () => {
         console.log('- Listening for request...')
     })
 })
-
-const createUsersWithMessages = async () => {
-    console.log('- Creation of users')
-    const user1 = new models.User({
-        username: 'Mathis',
-    })
-    const user2 = new models.User({
-        username: 'Guillaume',
-    })
-    const message1 = new models.Message({
-        text: 'Hello',
-        user: user1.id,
-    })
-
-    const message2 = new models.Message({
-        text: 'Hello, how are you ?',
-        user: user2.id,
-    })
-
-    const message3 = new models.Message({
-        text: 'Good !',
-        user: user2.id,
-    })
-    await message1.save()
-    await message2.save()
-    await message3.save()
-
-    await user1.save()
-    await user2.save()
-}
