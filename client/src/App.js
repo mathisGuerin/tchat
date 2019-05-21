@@ -42,6 +42,7 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(this.getMessages())
+      .then(this.setState({ input: '' }))
   }
 
   handleChange = e => {
