@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Users from './components/Users'
 import Messages from './components/Messages'
+import socketIOClient from "socket.io-client";
 import './styles/App.css'
 
 class App extends Component {
@@ -17,6 +18,11 @@ class App extends Component {
   componentDidMount() {
     this.getUsers()
     this.getMessages()
+    const socket = socketIOClient('http://localhost:8080');
+    socket.on("new message", data => {
+      console.log("Received new message : ", data)
+      this.setState({ messages: data.messages })
+    });
   }
 
   getUsers = () => {
@@ -29,6 +35,7 @@ class App extends Component {
     fetch('http://localhost:8080/messages')
       .then(res => res.json())
       .then(messages => this.setState({ messages }))
+      .then(this.fetchMessages)
   }
 
   postMessage = e => {
@@ -40,9 +47,13 @@ class App extends Component {
       method: 'POST',
       body: JSON.stringify({ text: this.state.input }),
     })
-      .then(res => res.json())
-      .then(this.getMessages())
-      .then(this.setState({ input: '' }))
+      .then(this.getMessages)
+  }
+
+  fetchMessages = () => {
+    const socket = socketIOClient('http://localhost:8080');
+    socket.emit("new message", this.state.messages);
+    this.setState({input: ''})
   }
 
   handleChange = e => {

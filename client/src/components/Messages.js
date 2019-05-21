@@ -4,7 +4,7 @@ import '../styles/Messages.css'
 const Messages = function({ messages, postMessage }) {
   return (
     <div className="Users">
-      {messages.map(message => (
+      {messages.length > 0 && messages.map(message => (
         <div key={message._id}>{message.text}</div>
       ))}
       

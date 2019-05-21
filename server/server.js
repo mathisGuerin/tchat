@@ -7,6 +7,25 @@ let app = express()
 var cors = require('cors')
 let bodyParser = require('body-parser')
 let session = require('express-session')
+var server = require('http').Server(app)
+var io = require('socket.io')(server)
+var connections = []
+
+io.sockets.on('connection', function(socket) {
+    connections.push(socket)
+    console.log('Connected: %s sockets connected', connections.length)
+    // Disconnect
+    socket.on('disconnect', function (data) {
+        connections.splice(connections.indexOf(socket), 1)
+        console.log('Diconnected: %s sockets connected', connections.length)
+    })
+
+    // Send messages
+    socket.on('new message', function(data) {
+        console.log("Server received message event")
+        io.sockets.emit('new message', {messages: data})
+    })
+})
 
 // Middleware
 app.use(express.static('public'))
@@ -47,7 +66,7 @@ connectDb().then(async () => {
         await Promise.all([models.User.deleteMany({}), models.Message.deleteMany({})])
         createUsersWithMessages()
     }
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
         console.log('- Listening for request...')
     })
 })
