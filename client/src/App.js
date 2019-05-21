@@ -68,7 +68,7 @@ class App extends Component {
         <Header />
         <Users users={users} />
         <Messages messages={messages} postMessage={postMessage} />
-        <form id="message" onSubmit={this.postMessage}>
+        <form className="Message-form" id="message" onSubmit={this.postMessage}>
           <input onChange={this.handleChange} value={this.state.input} type="text" />
           <button type="submit">Send</button>
         </form>

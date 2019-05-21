@@ -3,9 +3,12 @@ import '../styles/Messages.css'
 
 const Messages = function({ messages, postMessage }) {
   return (
-    <div className="Users">
+    <div className="Messages">
       {messages.length > 0 && messages.map(message => (
-        <div key={message._id}>{message.text}</div>
+        <div className="Message" key={message._id}>
+          <div className="Message-user">{message.user}</div>
+          <div className="Message-text">{message.text}</div>
+        </div>
       ))}
       
     </div>
