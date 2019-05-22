@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Messages.css'
+import '../styles/Messages.scss'
 
 const Messages = function({ messages, postMessage }) {
   return (

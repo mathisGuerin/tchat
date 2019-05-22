@@ -1,20 +1,19 @@
 .Messages {
-    max-width: 1000px;
-    margin: 20px;
+
 }
 
 .Message {
     width: fit-content;
-    background-color: #2F59AD;
-    color: white;
+    background-color: #5EAFFF;
+    color: #022140;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 5px;
     margin: 5px 0;
 }
 
 .Message-user {
     font-size: 0.8em;
-    color: #dedede;
+    color: #022140;
 }
 
 .Message-text {

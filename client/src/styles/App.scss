@@ -1,0 +1,39 @@
+.App {
+  height: 100vh;
+  text-align: center;
+  color: #2d2d2d;
+  background-color: #022140;
+}
+
+.App-container {
+  max-width: 600px;
+  margin: 20px;
+
+  @media screen and (min-width: 600px) {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+}
+
+.Message-form {
+  display: flex;
+
+  @media screen and (min-width: 600px) {
+    width: 400px;
+    margin: 20px auto;
+  }
+
+  textarea {
+    width: 80%;
+    padding: 10px;
+    border: none;
+  }
+}
+
+.Message-form button {
+  background-color: #FFBA45;
+  width: 20%;
+  border: none;
+  padding: 10px;
+  margin: 0 5px;
+}

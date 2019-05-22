@@ -3,7 +3,7 @@ import Header from './components/Header'
 import Users from './components/Users'
 import Messages from './components/Messages'
 import io from "socket.io-client";
-import './styles/App.css'
+import './styles/App.scss'
 
 const socketUrl = "http://localhost:8080"
 
@@ -80,12 +80,14 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Users users={users} />
-        <Messages messages={messages} postMessage={postMessage} />
-        <form className="Message-form" id="message" onSubmit={this.postMessage}>
-          <input onChange={this.handleChange} value={this.state.input} type="text" />
-          <button type="submit">Send</button>
-        </form>
+        <div className="App-container">
+          <Users users={users} />
+          <Messages messages={messages} postMessage={postMessage} />
+          <form className="Message-form" id="message" onSubmit={this.postMessage}>
+            <textarea rows="2" onChange={this.handleChange} value={this.state.input}></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
       </div>
     )
   }

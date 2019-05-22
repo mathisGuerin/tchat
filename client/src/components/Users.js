@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Users.css'
+import '../styles/Users.scss'
 
 const Users = function({ users }) {
   return (
