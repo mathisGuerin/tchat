@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Users from './components/Users'
 import Messages from './components/Messages'
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 import './styles/App.css'
+
+const socketUrl = "http://localhost:8080"
 
 class App extends Component {
   constructor(props) {
@@ -12,17 +14,29 @@ class App extends Component {
       users: [],
       messages: [],
       input: '',
+      socket: null
     }
+  }
+  
+  componentWillMount() {
+    this.initSocket()
   }
 
   componentDidMount() {
     this.getUsers()
-    this.getMessages()
-    const socket = socketIOClient('http://localhost:8080');
+    this.getMessages()    
+  }
+
+  initSocket = () => {
+    const socket = io(socketUrl);
+    socket.on('connect', () => {
+      console.log("Connected")
+    })
     socket.on("new message", data => {
       console.log("Received new message : ", data)
       this.setState({ messages: data.messages })
     });
+    this.setState({socket})
   }
 
   getUsers = () => {
@@ -51,7 +65,7 @@ class App extends Component {
   }
 
   fetchMessages = () => {
-    const socket = socketIOClient('http://localhost:8080');
+    const socket = io(socketUrl);
     socket.emit("new message", this.state.messages);
     this.setState({input: ''})
   }
