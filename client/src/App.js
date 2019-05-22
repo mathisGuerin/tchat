@@ -40,13 +40,13 @@ class App extends Component {
   }
 
   getUsers = () => {
-    fetch('http://localhost:8080/users')
+    fetch('/api/users')
       .then(res => res.json())
       .then(users => this.setState({ users }))
   }
 
   getMessages = () => {
-    fetch('http://localhost:8080/messages')
+    fetch('/api/messages')
       .then(res => res.json())
       .then(messages => this.setState({ messages }))
       .then(this.fetchMessages)
@@ -54,7 +54,7 @@ class App extends Component {
 
   postMessage = e => {
     e.preventDefault()
-    fetch('http://localhost:8080/messages', {
+    fetch('/api/messages', {
       headers: {
         'Content-Type': 'application/json',
       },

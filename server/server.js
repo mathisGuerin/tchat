@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
     res.send(`You hit home page!\n`)
 })
 
-app.use('/users', routes.user)
-app.use('/messages', routes.message)
+app.use('/api/users', routes.user)
+app.use('/api/messages', routes.message)
 
 // Error handling middleware
 app.use(function(err, req, res, next) {
